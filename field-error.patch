@@ -1,0 +1,17 @@
+diff --git a/core/lib/Drupal/Core/Entity/Sql/DefaultTableMapping.php b/core/lib/Drupal/Core/Entity/Sql/DefaultTableMapping.php
+index d6ca5db..c356266 100644
+--- a/core/lib/Drupal/Core/Entity/Sql/DefaultTableMapping.php
++++ b/core/lib/Drupal/Core/Entity/Sql/DefaultTableMapping.php
+@@ -310,6 +310,12 @@ public function getAllColumns($table_name) {
+         $this->allColumns[$table_name] = array_merge($this->allColumns[$table_name], array_values($this->getColumnNames($field_name)));
+       }
+ 
++      if (isset($field_name) && (!isset($this->fieldStorageDefinitions[$field_name]) || $this->fieldStorageDefinitions[$field_name] == NULL)) {
++        \Drupal::logger('DebugChannel')
++          ->debug('field_name: %field_name  ; table_name : %table_name', ['%field_name' => $field_name, '%table_name' => $table_name]);
++      }
++
++
+       // There is just one field for each dedicated storage table, thus
+       // $field_name can only refer to it.
+       if (isset($field_name) && $this->requiresDedicatedTableStorage($this->fieldStorageDefinitions[$field_name])) {
